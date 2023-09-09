@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../auth/firebase.dart';
+import '../screens/auth/firebase.dart';
 
 class Skills extends StatefulWidget {
   const Skills({super.key});
