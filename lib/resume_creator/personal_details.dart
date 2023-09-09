@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:resume_creator/resume_creator/imagepicker.dart';
 
-import '../auth/firebase.dart';
+import '../screens/auth/firebase.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({super.key});

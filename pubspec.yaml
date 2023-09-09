@@ -43,6 +43,7 @@ dependencies:
   cloud_firestore: ^4.9.0
   fluttertoast: ^8.2.2
   intl: ^0.18.1
+  connectivity_plus: ^4.0.2
 
 dev_dependencies:
   flutter_test:
@@ -65,10 +66,30 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/font/Montserrat-Regular.ttf
+
+    - family: Electrolize
+      fonts:
+        - asset: assets/font/Electrolize-Regular.ttf
+
+    - family: Ubuntu
+      fonts:
+        - asset: assets/font/Ubuntu-Light.ttf
+          weight: 300
+        - asset: assets/font/Ubuntu-Regular.ttf
+          weight: 400
+        - asset: assets/font/Ubuntu-Medium.ttf
+          weight: 500
+        - asset: assets/font/Ubuntu-Bold.ttf
+          weight: 700
 
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

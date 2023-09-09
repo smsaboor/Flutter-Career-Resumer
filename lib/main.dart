@@ -1,47 +1,43 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:resume_creator/HomePage.dart';
-import 'package:resume_creator/auth/login.dart';
-import 'package:resume_creator/resume_creator/cover_letter.dart';
-import 'package:resume_creator/resume_creator/education.dart';
-import 'package:resume_creator/resume_creator/experience.dart';
-import 'package:resume_creator/resume_creator/objective.dart';
-import 'package:resume_creator/resume_creator/personal_details.dart';
-import 'package:resume_creator/resume_creator/projects.dart';
-import 'package:resume_creator/resume_creator/resume_creator.dart';
-import 'package:resume_creator/resume_creator/skills.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:resume_creator/screens/routes.dart';
+import 'package:resume_creator/utils/app_constants.dart';
+import 'package:resume_creator/utils/shared_preference/shared_prefer.dart';
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefer = await SharedPreferences.getInstance();
-
-  prefer.setBool('isLogin', false);
-  bool isLogin = prefer.getBool('isLogin') ?? false;
-  print('is login value: $isLogin');
-  await Firebase.initializeApp();
-  runApp(MyApp(isLogin));
+    WidgetsFlutterBinding.ensureInitialized();
+    HttpOverrides.global = MyHttpOverrides();
+    await SharedPrefs.init();
+    SharedPrefs.instance.setBool(AppConstants.isLogin, false);
+    bool onboarding = SharedPrefs.instance.getBool(AppConstants.onboarding) ?? true;
+    print(' onboarding: $onboarding');
+    await Firebase.initializeApp();
+    runApp(MyApp(true));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp(this.islogin);
-  var islogin;
+  MyApp(this.onboarding);
+  bool onboarding;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
-      routes: {
-        '/': (context) => islogin ? HomePage() : Login(),
-        'resumecreator': (context) => ResumeCreator(),
-        'projects': (context) => Projects(),
-        'personaldetails': (context) => PersonalDetails(),
-        'objective': (context) => Objective(),
-        'education': (context) => Education(),
-        'experience': (context) => Experience(),
-        'skills': (context) => Skills(),
-        'coverletter': (context) => CoverLetter(),
-      },
+      debugShowCheckedModeBanner: false,
+      initialRoute: onboarding
+          ? RouteGenerator.onBoarding
+          : RouteGenerator.splashScreen,
+      onGenerateRoute: (route) => RouteGenerator.generateRoute(route),
     );
   }
 }
